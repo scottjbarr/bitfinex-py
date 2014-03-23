@@ -7,7 +7,7 @@ Install the libs
     pip install -r ./requirements.txt
 
 
-## Run the Tests
+## Tests
 
 Depending on your system, install one of the following libs
 
@@ -15,6 +15,10 @@ Depending on your system, install one of the following libs
 - pywin32 (Windows)
 - MacFSEvents (OSX)
 
-
+Sniffer will watch for changes
 
     sniffer -x --nocapture
+
+Or you can just run the tests
+
+    nosetests
