@@ -32,7 +32,7 @@ class Client(object):
 
     def symbols(self):
         """
-        GET symbols
+        GET /symbols
 
         curl https://api.bitfinex.com/v1/symbols
         ['btcusd','ltcusd','ltcbtc']
@@ -41,19 +41,19 @@ class Client(object):
 
     def ticker(self, symbol):
         '''
-        GET ticker/:symbol
+        GET /ticker/:symbol
 
         curl https://api.bitfinex.com/v1/ticker/btcusd
         {u'ask': u'562.9999', u'timestamp': u'1395552290.70933607', u'bid': u'562.25', u'last_price': u'562.25', u'mid': u'562.62495'}
         '''
         data = self._get(self.url_for(PATH_TICKER, (symbol)))
 
-        # all values can be converted to floats
+        # convert all values to floats
         return self._convert_to_floats(data)
 
     def today(self, symbol):
         '''
-        GET today/:symbol
+        GET /today/:symbol
 
         curl "https://api.bitfinex.com/v1/today/btcusd"
         {"low":"550.09","high":"572.2398","volume":"7305.33119836"}
@@ -61,7 +61,7 @@ class Client(object):
 
         data = self._get(self.url_for(PATH_TODAY, (symbol)))
 
-        # all values can be converted to floats
+        # convert all values to floats
         return self._convert_to_floats(data)
 
     def _convert_to_floats(self, data):
@@ -74,9 +74,6 @@ class Client(object):
         return data
 
     def _get(self, url):
-        # print 'Response Code: ' + str(r.status_code)
-        # print 'Response Header: ' + str(r.headers)
-        # print 'Response Content: '+ str(r.content)
-        response = requests.get(url) #, data={}, headers=headers)
+        response = requests.get(url)
 
         return json.loads(response.content)
