@@ -77,3 +77,20 @@ class BitfinexTest(unittest.TestCase):
         }
 
         self.assertEqual(expected, self.client.today('btcusd'))
+
+    @httpretty.activate
+    def test_should_have_stats(self):
+        # mock out the request
+        mock_body = '[{"period":1,"volume":"7410.27250155"},{"period":7,"volume":"52251.37118006"},{"period":30,"volume":"464505.07753251"}]'
+        url = self.client.url_for(bitfinex.PATH_STATS, ('btcusd'))
+        httpretty.register_uri(httpretty.GET, url,
+                           body=mock_body,
+                           status=200)
+
+        expected = [
+            {"period": 1, "volume": 7410.27250155},
+            {"period": 7, "volume": 52251.37118006},
+            {"period": 30,"volume": 464505.07753251}
+        ]
+
+        self.assertEqual(expected, self.client.stats('btcusd'))
