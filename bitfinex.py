@@ -10,7 +10,7 @@ PATH_TICKER = "ticker/%s"
 PATH_TODAY = "today/%s"
 PATH_STATS = "stats/%s"
 PATH_LENDBOOK = "lendbook/%s"
-PATH_ORDERBOOK = "orderbook/%s"
+PATH_ORDERBOOK = "book/%s"
 
 class Client(object):
     """
