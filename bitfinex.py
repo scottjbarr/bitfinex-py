@@ -10,6 +10,7 @@ PATH_TICKER = "ticker/%s"
 PATH_TODAY = "today/%s"
 PATH_STATS = "stats/%s"
 PATH_LENDBOOK = "lendbook/%s"
+PATH_ORDERBOOK = "orderbook/%s"
 
 class Client(object):
     """
@@ -21,8 +22,10 @@ class Client(object):
     def __initialize__(self):
         pass
 
+
     def server(self):
         return "%s://%s/%s" % (PROTOCOL, HOST, VERSION)
+
 
     def url_for(self, path, path_arg=None, parameters=None):
 
@@ -41,6 +44,7 @@ class Client(object):
 
         return url
 
+
     def symbols(self):
         """
         GET /symbols
@@ -49,6 +53,7 @@ class Client(object):
         ['btcusd','ltcusd','ltcbtc']
         """
         return self._get(self.url_for(PATH_SYMBOLS))
+
 
     def ticker(self, symbol):
         '''
@@ -67,6 +72,7 @@ class Client(object):
         # convert all values to floats
         return self._convert_to_floats(data)
 
+
     def today(self, symbol):
         '''
         GET /today/:symbol
@@ -79,6 +85,7 @@ class Client(object):
 
         # convert all values to floats
         return self._convert_to_floats(data)
+
 
     def stats(self, symbol):
         '''
@@ -103,6 +110,7 @@ class Client(object):
 
         return data
 
+
     def lendbook(self, currency, parameters=None):
         '''
         curl "https://api.bitfinex.com/v1/lendbook/btc"
@@ -113,8 +121,6 @@ class Client(object):
 
         limit_bids (int): Optional. Limit the number of bids (loan demands) returned. May be 0 in which case the array of bids is empty. Default is 50.
         limit_asks (int): Optional. Limit the number of asks (loan offers) returned. May be 0 in which case the array of asks is empty. Default is 50.
-
-        eg. https://api.bitfinex.com/v1/lendbook/btc?limit_bids=2&limit_asks=2
         '''
         data = self._get(self.url_for(PATH_LENDBOOK, path_arg=currency, parameters=parameters))
 
@@ -134,6 +140,35 @@ class Client(object):
 
         return data
 
+
+    def orderbook(self, symbol, parameters=None):
+        '''
+        curl "https://api.bitfinex.com/v1/book/btcusd"
+
+        {"bids":[{"price":"561.1101","amount":"0.985","timestamp":"1395557729.0"}],"asks":[{"price":"562.9999","amount":"0.985","timestamp":"1395557711.0"}]}
+
+        The 'bids' and 'asks' arrays will have multiple bid and ask dicts.
+
+        Optional parameters
+
+        limit_bids (int): Optional. Limit the number of bids returned. May be 0 in which case the array of bids is empty. Default is 50.
+        limit_asks (int): Optional. Limit the number of asks returned. May be 0 in which case the array of asks is empty. Default is 50.
+
+        eg.
+        curl "https://api.bitfinex.com/v1/book/btcusd?limit_bids=1&limit_asks=0"
+        {"bids":[{"price":"561.1101","amount":"0.985","timestamp":"1395557729.0"}],"asks":[]}
+
+        '''
+        data = self._get(self.url_for(PATH_ORDERBOOK, path_arg=symbol, parameters=parameters))
+
+        for type_ in data.keys():
+            for list_ in data[type_]:
+                for key, value in list_.iteritems():
+                    list_[key] = float(value)
+
+        return data
+
+
     def _convert_to_floats(self, data):
         """
         Convert all values in a dict to floats
@@ -143,8 +178,10 @@ class Client(object):
 
         return data
 
+
     def _get(self, url):
         return json.loads(requests.get(url).content)
+
 
     def _build_parameters(self, parameters):
         return '&'.join(["%s=%s" % (k, v) for k, v in parameters.iteritems()])
