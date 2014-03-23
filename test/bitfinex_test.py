@@ -34,7 +34,7 @@ class BitfinexTest(unittest.TestCase):
 
     @httpretty.activate
     def test_should_have_symbols(self):
-        # mock out the symbol request
+        # mock out the request
         httpretty.register_uri(httpretty.GET, self.client.url_for('symbols'),
                            body='["btcusd","ltcusd","ltcbtc"]',
                            status=200)
@@ -44,8 +44,7 @@ class BitfinexTest(unittest.TestCase):
 
     @httpretty.activate
     def test_should_have_ticker(self):
-
-        # mock out the ticker request
+        # mock out the request
         mock_body = '{"mid":"562.56495","bid":"562.15","ask":"562.9799","last_price":"562.25","timestamp":"1395552658.339936691"}'
         url = self.client.url_for(bitfinex.PATH_TICKER, ('btcusd'))
         httpretty.register_uri(httpretty.GET, url,
@@ -61,3 +60,20 @@ class BitfinexTest(unittest.TestCase):
         }
 
         self.assertEqual(expected, self.client.ticker('btcusd'))
+
+    @httpretty.activate
+    def test_should_have_today(self):
+        # mock out the request
+        mock_body = '{"low":"550.09","high":"572.2398","volume":"7305.33119836"}'
+        url = self.client.url_for(bitfinex.PATH_TODAY, ('btcusd'))
+        httpretty.register_uri(httpretty.GET, url,
+                           body=mock_body,
+                           status=200)
+
+        expected = {
+            "low": 550.09,
+            "high": 572.2398,
+            "volume": 7305.33119836
+        }
+
+        self.assertEqual(expected, self.client.today('btcusd'))

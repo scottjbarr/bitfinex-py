@@ -7,6 +7,7 @@ VERSION = "v1"
 
 PATH_SYMBOLS = "symbols"
 PATH_TICKER = "ticker/%s"
+PATH_TODAY = "today/%s"
 
 class Client(object):
 
@@ -47,6 +48,26 @@ class Client(object):
         '''
         data = self._get(self.url_for(PATH_TICKER, (symbol)))
 
+        # all values can be converted to floats
+        return self._convert_to_floats(data)
+
+    def today(self, symbol):
+        '''
+        GET today/:symbol
+
+        curl "https://api.bitfinex.com/v1/today/btcusd"
+        {"low":"550.09","high":"572.2398","volume":"7305.33119836"}
+        '''
+
+        data = self._get(self.url_for(PATH_TODAY, (symbol)))
+
+        # all values can be converted to floats
+        return self._convert_to_floats(data)
+
+    def _convert_to_floats(self, data):
+        """
+        Convert all values in a dict to floats
+        """
         for key, value in data.iteritems():
             data[key] = float(value)
 
