@@ -100,7 +100,7 @@ class Client(object):
 
         for period in data:
 
-            for key, value in period.iteritems():
+            for key, value in period.items():
                 if key == 'period':
                     new_value = int(value)
                 elif key == 'volume':
@@ -128,7 +128,7 @@ class Client(object):
 
             for lend in data[lend_type]:
 
-                for key, value in lend.iteritems():
+                for key, value in lend.items():
                     if key in ['rate', 'amount', 'timestamp']:
                         new_value = float(value)
                     elif key == 'period':
@@ -163,7 +163,7 @@ class Client(object):
 
         for type_ in data.keys():
             for list_ in data[type_]:
-                for key, value in list_.iteritems():
+                for key, value in list_.items():
                     list_[key] = float(value)
 
         return data
@@ -173,7 +173,7 @@ class Client(object):
         """
         Convert all values in a dict to floats
         """
-        for key, value in data.iteritems():
+        for key, value in data.items():
             data[key] = float(value)
 
         return data
@@ -184,5 +184,5 @@ class Client(object):
 
 
     def _build_parameters(self, parameters):
-        return '&'.join(["%s=%s" % (k, v) for k, v in parameters.iteritems()])
+        return '&'.join(["%s=%s" % (k, v) for k, v in parameters.items()])
 
