@@ -180,9 +180,14 @@ class Client(object):
 
 
     def _get(self, url):
-        return json.loads(requests.get(url).content)
+        return json.loads(requests.get(url).content.decode())
 
 
     def _build_parameters(self, parameters):
-        return '&'.join(["%s=%s" % (k, v) for k, v in parameters.items()])
+        # sort the keys so we can test easily in Python 3.3 (dicts are not
+        # ordered)
+        keys = list(parameters.keys())
+        keys.sort()
+
+        return '&'.join(["%s=%s" % (k, parameters[k]) for k in keys])
 
