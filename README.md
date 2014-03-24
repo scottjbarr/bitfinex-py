@@ -55,7 +55,7 @@ This code has been tested on
 
 ## References
 
-- https://www.bitfinex.com/pages/api
+- [https://www.bitfinex.com/pages/api](https://www.bitfinex.com/pages/api)
 
 
 ## Licence
@@ -64,4 +64,4 @@ The MIT License (MIT)
 
 Copyright (c) 2014 Scott Barr
 
-See LICENSE.md
+See [LICENSE.md](LICENSE.md)
