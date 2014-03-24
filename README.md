@@ -22,3 +22,8 @@ Sniffer will watch for changes
 Or you can just run the tests
 
     nosetests
+
+## References
+
+- https://www.bitfinex.com/pages/api
+- http://pastebin.com/j7jzFNRA
