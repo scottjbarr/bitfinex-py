@@ -25,9 +25,19 @@ Sniffer will watch for changes
 
     sniffer -x --nocapture
 
+Or Sniffer with code coverage enabled...
+
+    sniffer -x --nocapture -x--with-coverage -x--cover-html -x--cover-package=bitfinex
+
 Or you can just run the tests
 
     nosetests
+
+### Test Coverage
+
+Test coverage of the code. View cover/index.html to view detailed reports.
+
+    nosetests --with-coverage --cover-html --cover-package bitfinex
 
 
 ## Usage

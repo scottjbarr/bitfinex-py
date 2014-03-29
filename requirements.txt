@@ -1,6 +1,8 @@
 requests
+httpretty
 nose
+mock
+coverage
+nose-cov
 lxml==3.3.1
 sniffer
-httpretty
-mock

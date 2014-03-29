@@ -19,10 +19,6 @@ class Client(object):
     See https://www.bitfinex.com/pages/api for API documentation.
     """
 
-    def __initialize__(self):
-        pass
-
-
     def server(self):
         return "%s://%s/%s" % (PROTOCOL, HOST, VERSION)
 
