@@ -137,7 +137,7 @@ class Client(object):
         return data
 
 
-    def orderbook(self, symbol, parameters=None):
+    def order_book(self, symbol, parameters=None):
         '''
         curl "https://api.bitfinex.com/v1/book/btcusd"
 

@@ -14,7 +14,4 @@ print(client.stats(symbol))
 parameters = {'limit_asks': 2, 'limit_bids': 2}
 
 print(client.lendbook('btc', parameters))
-print(client.orderbook(symbol, parameters))
-
-# book = client.orderbook('btcusd')
-# print book
+print(client.order_book(symbol, parameters))

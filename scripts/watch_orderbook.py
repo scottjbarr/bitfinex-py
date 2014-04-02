@@ -17,8 +17,8 @@ while True:
     # get latest ticker
     ticker = client.ticker(symbol)
 
-    # get the orderbook
-    orders = client.orderbook(symbol, parameters)
+    # get the order book
+    orders = client.order_book(symbol, parameters)
 
     # clear the display, and update values
     os.system('clear')
@@ -32,4 +32,3 @@ while True:
         print("%s %s" % ("## ", order_type))
         for order in orders[order_type]:
             print order
-

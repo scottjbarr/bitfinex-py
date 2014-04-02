@@ -160,7 +160,7 @@ class BitfinexTest(unittest.TestCase):
 
 
     @httpretty.activate
-    def test_should_have_orderbook(self):
+    def test_should_have_order_book(self):
         # mock out the request
         mock_body = '{"bids":[{"price":"562.2601","amount":"0.985","timestamp":"1395567556.0"}],"asks":[{"price":"563.001","amount":"0.3","timestamp":"1395532200.0"}]}'
         url = self.client.url_for('book/%s', 'btcusd')
@@ -175,11 +175,11 @@ class BitfinexTest(unittest.TestCase):
             ]
         }
 
-        self.assertEqual(expected, self.client.orderbook('btcusd'))
+        self.assertEqual(expected, self.client.order_book('btcusd'))
 
 
     @httpretty.activate
-    def test_should_have_orderbook_with_parameters(self):
+    def test_should_have_order_book_with_parameters(self):
         # mock out the request
         mock_body = '{"bids":[{"price":"562.2601","amount":"0.985","timestamp":"1395567556.0"}],"asks":[]}'
         parameters = {'limit_asks': 0}
@@ -193,4 +193,4 @@ class BitfinexTest(unittest.TestCase):
             "asks": []
         }
 
-        self.assertEqual(expected, self.client.orderbook('btcusd', parameters))
+        self.assertEqual(expected, self.client.order_book('btcusd', parameters))
