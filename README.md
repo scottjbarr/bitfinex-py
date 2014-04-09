@@ -67,6 +67,7 @@ This code has been tested on
 
 - [https://www.bitfinex.com/pages/api](https://www.bitfinex.com/pages/api)
 - [https://community.bitfinex.com/showwiki.php?title=Sample+API+Code](https://community.bitfinex.com/showwiki.php?title=Sample+API+Code)
+- [https://gist.github.com/jordanbaucke/5812039](https://gist.github.com/jordanbaucke/5812039)
 
 ## Licence
 
