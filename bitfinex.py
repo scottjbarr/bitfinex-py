@@ -12,6 +12,9 @@ PATH_STATS = "stats/%s"
 PATH_LENDBOOK = "lendbook/%s"
 PATH_ORDERBOOK = "book/%s"
 
+# HTTP request timeout in seconds
+TIMEOUT = 5.0
+
 class Client(object):
     """
     Client for the bitfinex.com API.
@@ -176,7 +179,7 @@ class Client(object):
 
 
     def _get(self, url):
-        return json.loads(requests.get(url).content.decode())
+        return requests.get(url, timeout=TIMEOUT).json()
 
 
     def _build_parameters(self, parameters):
