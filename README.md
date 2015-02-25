@@ -67,8 +67,7 @@ This code has been tested on
 
 ## TODO
 
-- Package the code so it can be installed by pip.
-- Implement all API calls.
+- Implement all API calls that Bitfinex make available.
 
 
 ## References
