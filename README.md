@@ -66,12 +66,13 @@ This code has been tested on
 ## References
 
 - [https://www.bitfinex.com/pages/api](https://www.bitfinex.com/pages/api)
-
+- [https://community.bitfinex.com/showwiki.php?title=Sample+API+Code](https://community.bitfinex.com/showwiki.php?title=Sample+API+Code)
+- [https://gist.github.com/jordanbaucke/5812039](https://gist.github.com/jordanbaucke/5812039)
 
 ## Licence
 
 The MIT License (MIT)
 
-Copyright (c) 2014 Scott Barr
+Copyright (c) 2014-2015 Scott Barr
 
 See [LICENSE.md](LICENSE.md)

@@ -12,6 +12,9 @@ PATH_STATS = "stats/%s"
 PATH_LENDBOOK = "lendbook/%s"
 PATH_ORDERBOOK = "book/%s"
 
+# HTTP request timeout in seconds
+TIMEOUT = 5.0
+
 class Client(object):
     """
     Client for the bitfinex.com API.
@@ -52,7 +55,7 @@ class Client(object):
 
 
     def ticker(self, symbol):
-        '''
+        """
         GET /ticker/:symbol
 
         curl https://api.bitfinex.com/v1/ticker/btcusd
@@ -62,7 +65,7 @@ class Client(object):
             'bid': '562.25',
             'last_price': u'562.25',
             'mid': u'562.62495'}
-        '''
+        """
         data = self._get(self.url_for(PATH_TICKER, (symbol)))
 
         # convert all values to floats
@@ -70,12 +73,12 @@ class Client(object):
 
 
     def today(self, symbol):
-        '''
+        """
         GET /today/:symbol
 
         curl "https://api.bitfinex.com/v1/today/btcusd"
         {"low":"550.09","high":"572.2398","volume":"7305.33119836"}
-        '''
+        """
 
         data = self._get(self.url_for(PATH_TODAY, (symbol)))
 
@@ -84,14 +87,14 @@ class Client(object):
 
 
     def stats(self, symbol):
-        '''
+        """
         curl https://api.bitfinex.com/v1/stats/btcusd
         [
             {"period":1,"volume":"7410.27250155"},
             {"period":7,"volume":"52251.37118006"},
             {"period":30,"volume":"464505.07753251"}
         ]
-        '''
+        """
         data = self._get(self.url_for(PATH_STATS, (symbol)))
 
         for period in data:
@@ -108,7 +111,7 @@ class Client(object):
 
 
     def lendbook(self, currency, parameters=None):
-        '''
+        """
         curl "https://api.bitfinex.com/v1/lendbook/btc"
 
         {"bids":[{"rate":"5.475","amount":"15.03894663","period":30,"timestamp":"1395112149.0","frr":"No"},{"rate":"2.409","amount":"14.5121868","period":7,"timestamp":"1395497599.0","frr":"No"}],"asks":[{"rate":"6.351","amount":"15.5180735","period":5,"timestamp":"1395549996.0","frr":"No"},{"rate":"6.3588","amount":"626.94808249","period":30,"timestamp":"1395400654.0","frr":"Yes"}]}
@@ -117,7 +120,7 @@ class Client(object):
 
         limit_bids (int): Optional. Limit the number of bids (loan demands) returned. May be 0 in which case the array of bids is empty. Default is 50.
         limit_asks (int): Optional. Limit the number of asks (loan offers) returned. May be 0 in which case the array of asks is empty. Default is 50.
-        '''
+        """
         data = self._get(self.url_for(PATH_LENDBOOK, path_arg=currency, parameters=parameters))
 
         for lend_type in data.keys():
@@ -138,7 +141,7 @@ class Client(object):
 
 
     def order_book(self, symbol, parameters=None):
-        '''
+        """
         curl "https://api.bitfinex.com/v1/book/btcusd"
 
         {"bids":[{"price":"561.1101","amount":"0.985","timestamp":"1395557729.0"}],"asks":[{"price":"562.9999","amount":"0.985","timestamp":"1395557711.0"}]}
@@ -154,7 +157,7 @@ class Client(object):
         curl "https://api.bitfinex.com/v1/book/btcusd?limit_bids=1&limit_asks=0"
         {"bids":[{"price":"561.1101","amount":"0.985","timestamp":"1395557729.0"}],"asks":[]}
 
-        '''
+        """
         data = self._get(self.url_for(PATH_ORDERBOOK, path_arg=symbol, parameters=parameters))
 
         for type_ in data.keys():
@@ -176,7 +179,7 @@ class Client(object):
 
 
     def _get(self, url):
-        return json.loads(requests.get(url).content.decode())
+        return requests.get(url, timeout=TIMEOUT).json()
 
 
     def _build_parameters(self, parameters):
@@ -186,4 +189,3 @@ class Client(object):
         keys.sort()
 
         return '&'.join(["%s=%s" % (k, parameters[k]) for k in keys])
-
