@@ -7,7 +7,7 @@ dependencies = [
 ]
 
 setup(name='bitfinex',
-    version='0.2.2',
+    version='0.2.3',
     description = 'Python client for the Bitfinex API',
     author = 'Scott Barr',
     author_email = 'scottjbarr@gmail.com',
@@ -16,7 +16,7 @@ setup(name='bitfinex',
     packages=['bitfinex'],
     scripts = ['scripts/watch_orderbook'],
     requires = dependencies,
-    download_url = 'https://github.com/scottjbarr/bitfinex/tarball/0.2.2',
+    download_url = 'https://github.com/scottjbarr/bitfinex/tarball/0.2.3',
     keywords = ['bitcoin', 'btc'],
     classifiers = [],
     zip_safe=True)
