@@ -1,7 +1,7 @@
 from setuptools import setup
 
 setup(name='bitfinex',
-    version='0.1.0',
+    version='0.2.0',
     description = 'Python client for the Bitfinex API',
     author = 'Scott Barr',
     author_email = 'scottjbarr@gmail.com',
