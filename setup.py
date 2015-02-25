@@ -1,0 +1,12 @@
+from setuptools import setup
+
+setup(name='bitfinex',
+    version='0.1.0',
+    description = 'Python client for the Bitfinex API',
+    author = 'Scott Barr',
+    author_email = 'scottjbarr@gmail.com',
+    url = 'https://github.com/scottjbarr/bitfinex',
+    license = 'MIT',
+    packages=['bitfinex'],
+    scripts = ['scripts/watch_orderbook'],
+    zip_safe=True)

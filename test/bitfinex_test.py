@@ -3,12 +3,12 @@ from helpers import *
 import requests
 import httpretty
 
-import bitfinex
+from bitfinex.client import Client
 
 class BitfinexTest(unittest.TestCase):
 
     def setUp(self):
-        self.client = bitfinex.Client()
+        self.client = Client()
 
 
     def test_should_have_server(self):

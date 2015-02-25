@@ -73,6 +73,6 @@ This code has been tested on
 
 The MIT License (MIT)
 
-Copyright (c) 2014 Scott Barr
+Copyright (c) 2014-2015 Scott Barr
 
 See [LICENSE.md](LICENSE.md)
