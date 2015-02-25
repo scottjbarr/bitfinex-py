@@ -5,6 +5,14 @@ A Python client for the Bitfinex API.
 Most of the unauthenticated calls have been implemented.  It is planned to
 implement the remainder of the API.
 
+## Installation
+
+    pip install bitfinex
+
+
+## Watch The Order Book
+
+    watch_orderbook
 
 ## Setup
 
