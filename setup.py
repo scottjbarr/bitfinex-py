@@ -9,4 +9,7 @@ setup(name='bitfinex',
     license = 'MIT',
     packages=['bitfinex'],
     scripts = ['scripts/watch_orderbook'],
+    download_url = 'https://github.com/scottjbarr/bitfinex/tarball/0.2.0',
+    keywords = ['bitcoin', 'btc'],
+    classifiers = [],
     zip_safe=True)
