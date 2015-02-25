@@ -1,5 +1,11 @@
 from setuptools import setup
 
+# Runtime dependencies. See requirements.txt for development dependencies.
+dependencies = [
+    'requests',
+    'httpretty'
+]
+
 setup(name='bitfinex',
     version='0.2.2',
     description = 'Python client for the Bitfinex API',
@@ -9,6 +15,7 @@ setup(name='bitfinex',
     license = 'MIT',
     packages=['bitfinex'],
     scripts = ['scripts/watch_orderbook'],
+    requires = dependencies,
     download_url = 'https://github.com/scottjbarr/bitfinex/tarball/0.2.2',
     keywords = ['bitcoin', 'btc'],
     classifiers = [],
