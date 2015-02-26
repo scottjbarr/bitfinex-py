@@ -10,9 +10,13 @@ implement the remainder of the API.
     pip install bitfinex
 
 
-## Watch The Order Book
+## Poll The Order Book
 
-    watch_orderbook
+Run the ```bitfinex-poll-orderbook``` script in a terminal.
+
+Press ```Ctrl-c``` to exit.
+
+    bitfinex-poll-orderbook
 
 ## Setup
 
