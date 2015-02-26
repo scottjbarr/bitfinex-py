@@ -1,9 +1,9 @@
 from setuptools import setup
 
-version='0.2.5'
+version = '0.2.6'
 
 # Runtime dependencies. See requirements.txt for development dependencies.
-dependencies=[
+dependencies = [
     'requests',
     'httpretty'
 ]
@@ -16,7 +16,7 @@ setup(name='bitfinex',
     url='https://github.com/scottjbarr/bitfinex',
     license='MIT',
     packages=['bitfinex'],
-    scripts=['scripts/watch_orderbook'],
+    scripts=['scripts/bitfinex-poll-orderbook'],
     install_requires=dependencies,
     download_url='https://github.com/scottjbarr/bitfinex/tarball/%s' % version,
     keywords=['bitcoin', 'btc'],
