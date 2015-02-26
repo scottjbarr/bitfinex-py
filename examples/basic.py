@@ -1,6 +1,6 @@
-import bitfinex
+from bitfinex.client import Client
 
-client = bitfinex.Client()
+client = Client()
 
 symbols = client.symbols()
 print(symbols)
