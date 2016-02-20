@@ -1,9 +1,18 @@
 import requests
 import json
+import base64
+import hmac
+import hashlib
+import time
+
+from decouple import config
 
 PROTOCOL = "https"
 HOST = "api.bitfinex.com"
 VERSION = "v1"
+
+API_KEY = config.API_KEY
+API_SECRET = config.API_SECRET
 
 PATH_SYMBOLS = "symbols"
 PATH_TICKER = "ticker/%s"
@@ -15,7 +24,8 @@ PATH_ORDERBOOK = "book/%s"
 # HTTP request timeout in seconds
 TIMEOUT = 5.0
 
-class Client(object):
+
+class Client:
     """
     Client for the bitfinex.com API.
 

@@ -1,3 +1,4 @@
+.idea/
 *.pyc
 tmp/*
 cover/*
