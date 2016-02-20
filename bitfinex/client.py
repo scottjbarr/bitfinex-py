@@ -32,6 +32,7 @@ class TradeClient:
     """
 
     def __init__(self):
+        self.URL = URL = "{0:s}://{1:s}/{2:s}".format(PROTOCOL, HOST, VERSION)
         pass
 
     @property
@@ -59,18 +60,141 @@ class TradeClient:
         """
         Fetch active orders
         """
-        URL = "{0:s}://{1:s}/{2:s}".format(PROTOCOL, HOST, VERSION)
+
         payload = {
             "request": "/v1/orders",
             "nonce": self._nonce
         }
 
         signed_payload = self._sign_payload(payload)
-        r = requests.post(URL + "/orders", headers=signed_payload, verify=True)
+        r = requests.post(self.URL + "/orders", headers=signed_payload, verify=True)
         json_resp = r.json()
 
         return json_resp
 
+    def active_positions(self):  # view your active positions.
+        """
+        Fetch active Positions
+        """
+
+        payload = {
+            "request": "/v1/positions",
+            "nonce": self._nonce
+        }
+
+        signed_payload = self._sign_payload(payload)
+        r = requests.post(self.URL + "/positions", headers=signed_payload, verify=True)
+        json_resp = r.json()
+        return json_resp
+
+    def claim_position(self, position_id):  # Claim a position.
+
+        payload = {
+
+            "request": "/v1/position/claim",
+            "nonce": self._nonce,
+            "position_id": position_id
+
+        }
+
+        signed_payload = self._sign_payload(payload)
+        r = requests.post(self.URL + "/position/claim", headers=signed_payload, verify=True)
+        json_resp = r.json()
+
+        return json_resp
+
+    def past_trades(self, timestamp=0, symbol='btcusd'):  # view your past trades
+
+        payload = {
+
+            "request": "/v1/mytrades",
+            "nonce": self._nonce,
+            "symbol": symbol,
+            "timestamp": timestamp
+
+        }
+
+        signed_payload = self._sign_payload(payload)
+        r = requests.post(self.URL + "/mytrades", headers=signed_payload, verify=True)
+        json_resp = r.json()
+
+        return json_resp
+
+    def place_offer(self, currency, amount, rate, period, direction):
+        payload = {
+
+            "request": "/v1/offer/new",
+            "nonce": self._nonce,
+            "currency": currency,
+            "amount": amount,
+            "rate": rate,
+            "period": period,
+            "direction": direction
+
+        }
+
+        signed_payload = self._sign_payload(payload)
+        r = requests.post(self.URL + "/offer/new", headers=signed_payload, verify=True)
+        json_resp = r.json()
+
+        return json_resp
+
+    def cancel_offer(self, offer_id):
+        payload = {
+
+            "request": "/v1/offer/cancel",
+            "nonce": self._nonce,
+            "offer_id": offer_id
+
+        }
+
+        signed_payload = self._sign_payload(payload)
+        r = requests.post(self.URL + "/offer/cancel", headers=signed_payload, verify=True)
+        json_resp = r.json()
+
+        return json_resp
+
+    def status_offer(self, offer_id):
+        payload = {
+
+            "request": "/v1/offer/status",
+            "nonce": self._nonce,
+            "offer_id": offer_id
+
+        }
+
+        signed_payload = self._sign_payload(payload)
+        r = requests.post(self.URL + "/offer/status", headers=signed_payload, verify=True)
+        json_resp = r.json()
+
+        return json_resp
+
+    def active_offers(self):
+        payload = {
+
+            "request": "/v1/offers",
+            "nonce": self._nonce
+
+        }
+
+        signed_payload = self._sign_payload(payload)
+        r = requests.post(self.URL + "/offers", headers=signed_payload, verify=True)
+        json_resp = r.json()
+
+        return json_resp
+
+    def balances(self):  # see your balances.
+
+        payload = {
+            "request": "/v1/balances",
+            "nonce": self._nonce
+        }
+
+        signed_payload = self._sign_payload(payload)
+        r = requests.post(self.URL + "/balances", headers=signed_payload, verify=True)
+        json_resp = r.json()
+
+        return json_resp
 
 
 class Client:

@@ -197,11 +197,16 @@ class BitfinexTest(unittest.TestCase):
 
 
 class TestTradeClient(unittest.TestCase):
+    def setUp(self):
+        self.tc = TradeClient()
+
     def test_instantiate_tradeclient(self):
-        tc = TradeClient()
-        self.assertIsInstance(tc, TradeClient)
+        self.assertIsInstance(self.tc, TradeClient)
 
     def test_get_active_orders_returns_json(self):
-        tc = TradeClient()
-        ao = tc.active_orders()
+        ao = self.tc.active_orders()
         self.assertIsInstance(ao, list)
+
+    def test_get_active_positions_returns_json(self):
+        ap = self.tc.active_positions()
+        self.assertIsInstance(ap, list)
