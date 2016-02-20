@@ -56,6 +56,103 @@ class TradeClient:
             "X-BFX-PAYLOAD": data
         }
 
+    def place_order(self, amount, price, side, ord_type, symbol='btcusd', exchange='bitfinex'):
+        """
+        Submit a new order.
+        :param amount:
+        :param price:
+        :param side:
+        :param ord_type:
+        :param symbol:
+        :param exchange:
+        :return:
+        """
+        payload = {
+
+            "request": "/v1/order/new",
+            "nonce": self._nonce,
+            "symbol": symbol,
+            "amount": amount,
+            "price": price,
+            "exchange": exchange,
+            "side": side,
+            "type": ord_type
+
+        }
+
+        signed_payload = self._sign_payload(payload)
+        r = requests.post(self.URL + "/order/new", headers=signed_payload, verify=True)
+        json_resp = r.json()
+
+        try:
+            json_resp['order_id']
+        except:
+            return json_resp['message']
+
+        return json_resp
+
+    def delete_order(self, order_id):
+        """
+        Cancel an order.
+        :param order_id:
+        :return:
+        """
+        payload = {
+            "request": "/v1/order/cancel",
+            "nonce": self._nonce,
+            "order_id": order_id
+        }
+
+        signed_payload = self._sign_payload(payload)
+        r = requests.post(self.URL + "/order/cancel", headers=signed_payload, verify=True)
+        json_resp = r.json()
+
+        try:
+            json_resp['avg_excution_price']
+        except:
+            return json_resp['message']
+
+        return json_resp
+
+    def delete_all_orders(self):
+        """
+        Cancel all orders.
+
+        :return:
+        """
+        payload = {
+            "request": "/v1/order/cancel/all",
+            "nonce": self._nonce,
+        }
+
+        signed_payload = self._sign_payload(payload)
+        r = requests.post(self.URL + "/order/cancel/all", headers=signed_payload, verify=True)
+        json_resp = r.json()
+        return json_resp
+
+    def status_order(self, order_id):
+        """
+        Get the status of an order. Is it active? Was it cancelled? To what extent has it been executed? etc.
+        :param order_id:
+        :return:
+        """
+        payload = {
+            "request": "/v1/order/status",
+            "nonce": self._nonce,
+            "order_id": order_id
+        }
+
+        signed_payload = self._sign_payload(payload)
+        r = requests.post(self.URL + "/order/status", headers=signed_payload, verify=True)
+        json_resp = r.json()
+
+        try:
+            json_resp['avg_excution_price']
+        except:
+            return json_resp['message']
+
+        return json_resp
+
     def active_orders(self):
         """
         Fetch active orders
@@ -72,7 +169,7 @@ class TradeClient:
 
         return json_resp
 
-    def active_positions(self):  # view your active positions.
+    def active_positions(self):
         """
         Fetch active Positions
         """
@@ -87,14 +184,16 @@ class TradeClient:
         json_resp = r.json()
         return json_resp
 
-    def claim_position(self, position_id):  # Claim a position.
-
+    def claim_position(self, position_id):
+        """
+        Claim a position.
+        :param position_id:
+        :return:
+        """
         payload = {
-
             "request": "/v1/position/claim",
             "nonce": self._nonce,
             "position_id": position_id
-
         }
 
         signed_payload = self._sign_payload(payload)
@@ -103,15 +202,18 @@ class TradeClient:
 
         return json_resp
 
-    def past_trades(self, timestamp=0, symbol='btcusd'):  # view your past trades
-
+    def past_trades(self, timestamp=0, symbol='btcusd'):
+        """
+        Fetch past trades
+        :param timestamp:
+        :param symbol:
+        :return:
+        """
         payload = {
-
             "request": "/v1/mytrades",
             "nonce": self._nonce,
             "symbol": symbol,
             "timestamp": timestamp
-
         }
 
         signed_payload = self._sign_payload(payload)
@@ -121,8 +223,16 @@ class TradeClient:
         return json_resp
 
     def place_offer(self, currency, amount, rate, period, direction):
-        payload = {
+        """
 
+        :param currency:
+        :param amount:
+        :param rate:
+        :param period:
+        :param direction:
+        :return:
+        """
+        payload = {
             "request": "/v1/offer/new",
             "nonce": self._nonce,
             "currency": currency,
@@ -130,7 +240,6 @@ class TradeClient:
             "rate": rate,
             "period": period,
             "direction": direction
-
         }
 
         signed_payload = self._sign_payload(payload)
@@ -140,12 +249,15 @@ class TradeClient:
         return json_resp
 
     def cancel_offer(self, offer_id):
-        payload = {
+        """
 
+        :param offer_id:
+        :return:
+        """
+        payload = {
             "request": "/v1/offer/cancel",
             "nonce": self._nonce,
             "offer_id": offer_id
-
         }
 
         signed_payload = self._sign_payload(payload)
@@ -155,12 +267,15 @@ class TradeClient:
         return json_resp
 
     def status_offer(self, offer_id):
-        payload = {
+        """
 
+        :param offer_id:
+        :return:
+        """
+        payload = {
             "request": "/v1/offer/status",
             "nonce": self._nonce,
             "offer_id": offer_id
-
         }
 
         signed_payload = self._sign_payload(payload)
@@ -170,11 +285,13 @@ class TradeClient:
         return json_resp
 
     def active_offers(self):
+        """
+        Fetch active_offers
+        :return:
+        """
         payload = {
-
             "request": "/v1/offers",
             "nonce": self._nonce
-
         }
 
         signed_payload = self._sign_payload(payload)
@@ -183,8 +300,12 @@ class TradeClient:
 
         return json_resp
 
-    def balances(self):  # see your balances.
+    def balances(self):
+        """
+        Fetch balances
 
+        :return:
+        """
         payload = {
             "request": "/v1/balances",
             "nonce": self._nonce
@@ -221,7 +342,7 @@ class Client:
 
         # Append any parameters to the URL.
         if parameters:
-            url = "%s?%s" % (url, self._build_parameters(parameters))
+            url = "%s?%s" % (self.URL, self._build_parameters(parameters))
 
         return url
 
@@ -361,7 +482,7 @@ class Client:
 
 
     def _get(self, url):
-        return requests.get(url, timeout=TIMEOUT).json()
+        return requests.get(self.URL, timeout=TIMEOUT).json()
 
 
     def _build_parameters(self, parameters):
