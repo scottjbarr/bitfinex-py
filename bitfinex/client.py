@@ -1,3 +1,4 @@
+from __future__ import absolute_import
 import requests
 import json
 import base64
@@ -11,8 +12,8 @@ PROTOCOL = "https"
 HOST = "api.bitfinex.com"
 VERSION = "v1"
 
-API_KEY = config.API_KEY
-API_SECRET = config.API_SECRET
+API_KEY = config('API_KEY')
+API_SECRET = config('API_SECRET')
 
 PATH_SYMBOLS = "symbols"
 PATH_TICKER = "ticker/%s"
@@ -25,6 +26,53 @@ PATH_ORDERBOOK = "book/%s"
 TIMEOUT = 5.0
 
 
+class TradeClient:
+    """
+    Authenticated client for trading through Bitfinex API
+    """
+
+    def __init__(self):
+        pass
+
+    @property
+    def _nonce(self):
+        """
+        Returns a nonce
+        Used in authentication
+        """
+        return str(time.time() * 1000000)
+
+    def _sign_payload(self, payload):
+        j = json.dumps(payload)
+        data = base64.standard_b64encode(j.encode('utf8'))
+
+        h = hmac.new(API_SECRET.encode('utf8'), data, hashlib.sha384)
+        signature = h.hexdigest()
+        print(API_KEY, signature)
+        return {
+            "X-BFX-APIKEY": API_KEY,
+            "X-BFX-SIGNATURE": signature,
+            "X-BFX-PAYLOAD": data
+        }
+
+    def active_orders(self):
+        """
+        Fetch active orders
+        """
+        URL = "{0:s}://{1:s}/{2:s}".format(PROTOCOL, HOST, VERSION)
+        payload = {
+            "request": "/v1/orders",
+            "nonce": self._nonce
+        }
+
+        signed_payload = self._sign_payload(payload)
+        r = requests.post(URL + "/orders", headers=signed_payload, verify=True)
+        json_resp = r.json()
+
+        return json_resp
+
+
+
 class Client:
     """
     Client for the bitfinex.com API.
@@ -33,7 +81,7 @@ class Client:
     """
 
     def server(self):
-        return "%s://%s/%s" % (PROTOCOL, HOST, VERSION)
+        return u"{0:s}://{1:s}/{2:s}".format(PROTOCOL, HOST, VERSION)
 
 
     def url_for(self, path, path_arg=None, parameters=None):

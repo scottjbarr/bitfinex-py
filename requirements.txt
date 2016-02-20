@@ -9,3 +9,4 @@ sniffer
 ##
 Quandl
 python-decouple
+pandas

@@ -1,9 +1,9 @@
-from helpers import *
-
+import unittest
+import mock
 import requests
 import httpretty
 
-from bitfinex.client import Client
+from bitfinex.client import Client, TradeClient
 
 class BitfinexTest(unittest.TestCase):
 
@@ -194,3 +194,14 @@ class BitfinexTest(unittest.TestCase):
         }
 
         self.assertEqual(expected, self.client.order_book('btcusd', parameters))
+
+
+class TestTradeClient(unittest.TestCase):
+    def test_instantiate_tradeclient(self):
+        tc = TradeClient()
+        self.assertIsInstance(tc, TradeClient)
+
+    def test_get_active_orders_returns_json(self):
+        tc = TradeClient()
+        ao = tc.active_orders()
+        self.assertIsInstance(ao, list)
