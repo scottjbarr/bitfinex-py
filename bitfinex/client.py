@@ -26,13 +26,14 @@ PATH_ORDERBOOK = "book/%s"
 TIMEOUT = 5.0
 
 
+
 class TradeClient:
     """
     Authenticated client for trading through Bitfinex API
     """
 
     def __init__(self):
-        self.URL = URL = "{0:s}://{1:s}/{2:s}".format(PROTOCOL, HOST, VERSION)
+        self.URL = "{0:s}://{1:s}/{2:s}".format(PROTOCOL, HOST, VERSION)
         pass
 
     @property
@@ -317,6 +318,32 @@ class TradeClient:
 
         return json_resp
 
+    def history(self, currency, since=0, until=9999999999, limit=500, wallet='exchange'):
+        """
+        View you balance ledger entries
+        :param currency: currency to look for
+        :param since: Optional. Return only the history after this timestamp.
+        :param until: Optional. Return only the history before this timestamp.
+        :param limit: Optional. Limit the number of entries to return. Default is 500.
+        :param wallet: Optional. Return only entries that took place in this wallet. Accepted inputs are: “trading”,
+        “exchange”, “deposit”.
+        """
+        payload = {
+            "request": "/v1/history",
+            "nonce": self._nonce,
+            "currency": currency,
+            "since": since,
+            "until": until,
+            "limit": limit,
+            "wallet": wallet
+        }
+        signed_payload = self._sign_payload(payload)
+        r = requests.post(self.URL + "/history", headers=signed_payload, verify=True)
+        json_resp = r.json()
+
+        return json_resp
+
+
 
 class Client:
     """
@@ -342,7 +369,7 @@ class Client:
 
         # Append any parameters to the URL.
         if parameters:
-            url = "%s?%s" % (self.URL, self._build_parameters(parameters))
+            url = "%s?%s" % (url, self._build_parameters(parameters))
 
         return url
 
@@ -482,7 +509,7 @@ class Client:
 
 
     def _get(self, url):
-        return requests.get(self.URL, timeout=TIMEOUT).json()
+        return requests.get(url, timeout=TIMEOUT).json()
 
 
     def _build_parameters(self, parameters):

@@ -210,3 +210,7 @@ class TestTradeClient(unittest.TestCase):
     def test_get_active_positions_returns_json(self):
         ap = self.tc.active_positions()
         self.assertIsInstance(ap, list)
+
+    def test_get_full_history(self):
+        ap = self.tc.active_positions()
+        self.assertIsInstance(ap, list)
