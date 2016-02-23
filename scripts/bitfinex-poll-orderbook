@@ -39,4 +39,4 @@ while True:
         print("")
         print("%s %s" % ("## ", order_type))
         for order in orders[order_type]:
-            print (order)
+            print(order)
