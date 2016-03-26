@@ -6,14 +6,9 @@ import hmac
 import hashlib
 import time
 
-from decouple import config
-
 PROTOCOL = "https"
 HOST = "api.bitfinex.com"
 VERSION = "v1"
-
-API_KEY = config('API_KEY')
-API_SECRET = config('API_SECRET')
 
 PATH_SYMBOLS = "symbols"
 PATH_TICKER = "ticker/%s"
@@ -32,8 +27,10 @@ class TradeClient:
     Authenticated client for trading through Bitfinex API
     """
 
-    def __init__(self):
+    def __init__(self, key, secret):
         self.URL = "{0:s}://{1:s}/{2:s}".format(PROTOCOL, HOST, VERSION)
+        self.KEY = key
+        self.SECRET = secret
         pass
 
     @property
@@ -48,10 +45,10 @@ class TradeClient:
         j = json.dumps(payload)
         data = base64.standard_b64encode(j.encode('utf8'))
 
-        h = hmac.new(API_SECRET.encode('utf8'), data, hashlib.sha384)
+        h = hmac.new(self.SECRET.encode('utf8'), data, hashlib.sha384)
         signature = h.hexdigest()
         return {
-            "X-BFX-APIKEY": API_KEY,
+            "X-BFX-APIKEY": self.KEY,
             "X-BFX-SIGNATURE": signature,
             "X-BFX-PAYLOAD": data
         }
