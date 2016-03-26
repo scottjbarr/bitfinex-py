@@ -50,7 +50,6 @@ class TradeClient:
 
         h = hmac.new(API_SECRET.encode('utf8'), data, hashlib.sha384)
         signature = h.hexdigest()
-        print(API_KEY, signature)
         return {
             "X-BFX-APIKEY": API_KEY,
             "X-BFX-SIGNATURE": signature,
