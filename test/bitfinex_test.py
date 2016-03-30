@@ -3,7 +3,12 @@ import mock
 import requests
 import httpretty
 
+from decouple import config
+
 from bitfinex.client import Client, TradeClient
+
+API_KEY = config('API_KEY')
+API_SECRET = config('API_SECRET')
 
 class BitfinexTest(unittest.TestCase):
 
@@ -198,7 +203,7 @@ class BitfinexTest(unittest.TestCase):
 
 class TestTradeClient(unittest.TestCase):
     def setUp(self):
-        self.tc = TradeClient()
+        self.tc = TradeClient(API_KEY, API_SECRET)
 
     def test_instantiate_tradeclient(self):
         self.assertIsInstance(self.tc, TradeClient)
