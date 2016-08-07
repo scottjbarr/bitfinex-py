@@ -6,3 +6,7 @@ coverage
 nose-cov
 lxml==3.3.1
 sniffer
+##
+Quandl
+python-decouple
+pandas

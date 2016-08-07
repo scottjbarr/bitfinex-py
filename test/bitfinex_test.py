@@ -1,9 +1,14 @@
-from helpers import *
-
+import unittest
+import mock
 import requests
 import httpretty
 
-from bitfinex.client import Client
+from decouple import config
+
+from bitfinex.client import Client, TradeClient
+
+API_KEY = config('API_KEY')
+API_SECRET = config('API_SECRET')
 
 class BitfinexTest(unittest.TestCase):
 
@@ -194,3 +199,23 @@ class BitfinexTest(unittest.TestCase):
         }
 
         self.assertEqual(expected, self.client.order_book('btcusd', parameters))
+
+
+class TestTradeClient(unittest.TestCase):
+    def setUp(self):
+        self.tc = TradeClient(API_KEY, API_SECRET)
+
+    def test_instantiate_tradeclient(self):
+        self.assertIsInstance(self.tc, TradeClient)
+
+    def test_get_active_orders_returns_json(self):
+        ao = self.tc.active_orders()
+        self.assertIsInstance(ao, list)
+
+    def test_get_active_positions_returns_json(self):
+        ap = self.tc.active_positions()
+        self.assertIsInstance(ap, list)
+
+    def test_get_full_history(self):
+        ap = self.tc.active_positions()
+        self.assertIsInstance(ap, list)
